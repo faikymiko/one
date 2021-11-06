@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>校园临时通行码</title>
+</head>
+<script type="text/javascript">
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return (false);
+    }
+    function updateTime(){
+        var nowDate = new Date();
+        var date=(nowDate.getMonth()+1)+"月"+nowDate.getDate()+"日";
+        var time=nowDate.getHours()+":"+nowDate.getMinutes()+":"+nowDate.getSeconds();
+        document.getElementById("i_date").innerText=date;
+        document.getElementById("i_time").innerText=time;
+    }
+    function getTXSJ(){
+        var nowDate = new Date();
+        var year=nowDate.getUTCFullYear();
+        var startMin=(nowDate.getMinutes()-5<0?0:nowDate.getMinutes()-5)<10?"0"+(nowDate.getMinutes()-5<0?0:nowDate.getMinutes()-5):(nowDate.getMinutes()-5<0?0:nowDate.getMinutes()-5);
+        var startTime=year+"-"+(nowDate.getMonth()+1)+"-"+(nowDate.getDate()<10?"0"+nowDate.getDate():nowDate.getDate())+" "+
+            nowDate.getHours()+":"+startMin;
+        var endHour=nowDate.getHours()+4;
+        var endMin=startMin;
+        if(endHour>22){
+            endHour=22;
+            endMin=30;
+        }else if(endHour=22 && endMin>30){
+            endMin=30;
+        }
+        var endTime=year+"-"+(nowDate.getMonth()+1)+"-"+(nowDate.getDate()<10?"0"+nowDate.getDate():nowDate.getDate())+" "+
+            endHour+":"+endMin+":00";
+        return  startTime+"-"+endTime;
+    }
+    onload=function (ev) {
+        document.getElementById("i_span_name").innerText=decodeURI((getQueryVariable("name")));
+        document.getElementById("i_span_class").innerText=decodeURI((getQueryVariable("class")));
+        document.getElementById("i_span_txsj").innerText=getTXSJ();
+
+
+        setInterval("updateTime()", "500");updateTime();
+    }
+
+</script>
+<body style="margin: 0;">
+<div style="
+    background-color:white;
+    height: 85%;
+    width: 90%;
+    position: absolute;
+    left:5%;
+    top: 8%;
+    border-radius:25px;
+    box-shadow: 5px 5px 10px #888888;
+    z-index:1;
+">
+    <div style="margin-left: 15px;margin-top:15px;font-size: 40px;font-weight:bold;font-family: 'Adobe 宋体 Std L'; ">
+        <span>姓名:&nbsp</span> <span id="i_span_name"></span><br>
+        <span>班级:&nbsp</span> <span id="i_span_class"></span>
+    </div>
+    <br>
+    <div style="text-align:center;font-size: 100px;font-family: 'Adobe 黑体 Std R';" >
+        <span id="i_date" style="margin: 0;letter-spacing:-10px"></span><br>
+        <span id="i_time" style="margin: 0; position: relative;top: -40px;"></span>
+    </div>
+    <div style="text-align:center;position: relative;top: -40px;">
+        <img style="max-width:590px;max-height:590px;" src="imgs/test1.png"/>
+    </div>
+    <div style="text-align:center;font-size: 33px;font-weight: bold;position: relative;top: -35px;">
+        <span>通行时间:&nbsp</span>
+        <span id="i_span_txsj"></span>
+    </div>
+    <div style="text-align:center;font-size:56px;color: white;letter-spacing:3px">
+        <div style="background-color:#3E88D2;width: 80%;height: 100px;margin: 35px 10% 25px 10%;border-radius:12px;">
+            <span style="position: relative;top: 8px;">报备申请</span>
+        </div>
+        <div style="background-color:#3E88D2;width: 80%;height: 100px;margin: 0px 10% 25px 10%;border-radius:12px;">
+            <span style="position: relative;top: 8px;">免审批报备</span>
+        </div>
+        <div style="background-color:#3E88D2;width: 80%;height: 100px;margin: 0px 10% 25px 10%;border-radius:12px;">
+            <span style="position: relative;top: 8px;">出省报备</span>
+        </div>
+    </div>
+    <div style="text-align:center;position: relative;top: 60px;font-size:33px;font-weight: bold">
+        <span>健康码为绿码</span>
+    </div>
+
+</div>
+<div>
+    <div style="background-color:#3E88D2;padding-top: 2%; margin:0px;width:100%;height: 200px;text-align:center">
+            <span style="color: white;font-size: 70px;">守护校园&nbsp&nbsp&nbsp&nbsp&nbsp人人有责</span>
+    </div>
+
+    <div class="footer" style="background-color:#3E88D2;position: fixed;bottom: 0;padding-top: 2%; margin:0px;width:100%;height: 200px;text-align:center">
+
+    </div>
+</div>
+</body>
+</html>
